@@ -265,50 +265,65 @@ def evaluation(predicted_labels, actual_labels):
 # In[13]:
 
 
-# h_x -> before passing into sigmoid
-# hx -> after passing into sigmoid
-n_epoch = 1500
-alpha = 0.01
-thetaj = np.zeros(3)
-costs = []
-hx = sigmoid(thetaj, Train_X.T)
-thetaj = gradientDescent(Train_X, Train_Y, thetaj, hx, alpha, n_epoch,costs)
-
+alphas = [0.1,0.01,0.001,0.0001]
+costForEachAlpha = []
+thetajForEachAlpha = []
 
 
 # In[14]:
 
 
-# plots with no. of iterations/ epochs on x-axis and training / validation loss on y-axis.
-import matplotlib.pyplot as plt
-ep = np.array(list(range(0, 1500)))
-plt.plot(ep, costs)
-plt.xlabel('epochs')
-plt.ylabel('training loss')
-plt.title('Learning Rate')
+# h_x -> before passing into sigmoid
+# hx -> after passing into sigmoid
+
+
+for alpha in alphas:
+
+    n_epoch = 1500
+#     alpha = 0.01
+    thetaj = np.zeros(3)
+    costs = []
+    hx = sigmoid(thetaj, Train_X.T)
+    thetaj = gradientDescent(Train_X, Train_Y, thetaj, hx, alpha, n_epoch,costs)
+    costForEachAlpha.append(costs)
+    thetajForEachAlpha.append(thetaj)
 
 
 # In[15]:
 
 
-# cost (error) using learned parameters  𝜃  on train set
-hx = sigmoid(thetaj, Train_X.T)
-trainerror = cross_entropy_loss(hx,Train_Y)
+# plots with no. of iterations/ epochs on x-axis and training / validation loss on y-axis for each alpha
+import matplotlib.pyplot as plt
 
-display(trainerror)
+for i, alpha in enumerate(alphas):
+    ep = np.array(list(range(0, 1500)))
+    plt.plot(ep, costForEachAlpha[i])
+    plt.xlabel('epochs')
+    plt.ylabel('training loss')
+    plt.title('Learning Rate for alpha = ' + str(alpha))
+    plt.show()
 
 
 # In[16]:
 
 
-# cost (error) using learned parameters  𝜃  on test set
-hx = sigmoid(thetaj, Test_X.T)
-testerror = cross_entropy_loss(hx,Test_Y)
+# cost (error) using learned parameters  𝜃  on train set for each alpha
+for i,thetaj in enumerate(thetajForEachAlpha):
+    hx = sigmoid(thetaj, Train_X.T)
+    trainerror = cross_entropy_loss(hx,Train_Y)
 
-display(testerror)
+    display("cost for alpha " + str(alphas[i]) + " is " + str(trainerror))
 
 
 # In[17]:
+
+
+#Hence, since it yields the least cost, the most optimum value of alpha is 0.01 which corresponds to the second thetaj in the thetajForEachAlpha list
+#Therefore, we choose those values of thetaj
+thetaj = thetajForEachAlpha[1]
+
+
+# In[18]:
 
 
 #Prediction function
@@ -317,14 +332,14 @@ predicted_labels = predict(hx)
 actual_labels = Test_Y
 
 
-# In[18]:
+# In[19]:
 
 
 #Evaluation function
 accuracy, cm = evaluation(predicted_labels, actual_labels)
 
 
-# In[19]:
+# In[20]:
 
 
 # Confusion matrix and accuracy
@@ -332,13 +347,13 @@ display(accuracy)
 display(cm)
 
 
-# In[20]:
+# In[21]:
 
 
 #Part 2
 
 
-# In[21]:
+# In[22]:
 
 
 from sklearn.linear_model import LogisticRegression
@@ -352,7 +367,7 @@ accuracy = accuracy_score(actual_labels, predicted_labels)
 cm = confusion_matrix(actual_labels, predicted_labels)
 
 
-# In[22]:
+# In[23]:
 
 
 # Confusion matrix and accuracy
