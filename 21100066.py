@@ -330,8 +330,8 @@ for i,thetaj in enumerate(thetajForEachAlpha):
 # In[17]:
 
 
-#Hence, since it yields the least cost, the most optimum value of alpha is 0.01 which corresponds to the second thetaj in the thetajForEachAlpha list
-#Therefore, we choose those values of thetaj
+#Hence, since it yields the least cost, the most optimum value of alpha is 0.01.
+#Therefore, we choose 0.01 as our alpha and its values of thetaj which corresponds to the second thetaj in the thetajForEachAlpha list.
 thetaj = thetajForEachAlpha[1]
 
 
