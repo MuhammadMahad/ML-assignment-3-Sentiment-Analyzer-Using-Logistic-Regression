@@ -268,6 +268,7 @@ def evaluation(predicted_labels, actual_labels):
 alphas = [0.1,0.01,0.001,0.0001]
 costForEachAlpha = []
 thetajForEachAlpha = []
+n_epoch = 10000
 
 
 # In[14]:
@@ -279,7 +280,7 @@ thetajForEachAlpha = []
 
 for alpha in alphas:
 
-    n_epoch = 1500
+    
 #     alpha = 0.01
     thetaj = np.zeros(3)
     costs = []
@@ -296,12 +297,23 @@ for alpha in alphas:
 import matplotlib.pyplot as plt
 
 for i, alpha in enumerate(alphas):
-    ep = np.array(list(range(0, 1500)))
+    ep = np.array(list(range(0, n_epoch)))
     plt.plot(ep, costForEachAlpha[i])
     plt.xlabel('epochs')
     plt.ylabel('training loss')
     plt.title('Learning Rate for alpha = ' + str(alpha))
+    
+    if alpha == 0.0001:
+          plt.xlim([0,10000])
+          # plt.ylim([20,100])
+    elif alpha == 0.001:
+          plt.xlim([0,2000])
+    else:
+          plt.xlim([0,150])
+    
     plt.show()
+    
+  
 
 
 # In[16]:
